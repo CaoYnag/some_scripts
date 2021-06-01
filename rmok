@@ -1,0 +1,32 @@
+#!/bin/sh
+function rm_help()
+{
+    echo "process dir $1:"
+    if [ ! -d $1 ] 
+    then
+       echo "$1 not exists."
+    elif [  $(ls $1 | grep .ok | wc -l) -gt 0 ]
+    then
+		for file in $(ls $1/*.ok)
+		do
+	 	   echo "removed ${file%.ok}."
+	 	   rm $file -f
+	 	   rm ${file%.ok} -f
+		done
+	else
+		echo "nothing to do."
+    fi
+    echo
+}
+
+if [ $# -eq 0 ]
+then
+    echo "Usage: rmok [dest dir...]"
+    echo "Exp: rmok dir1 dir2 dir3"
+else
+    for dir in $*
+    do
+		rm_help $dir
+    done
+fi
+

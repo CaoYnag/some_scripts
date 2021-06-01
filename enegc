@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# 用法：
+# chmod +x rnegc.sh
+# ./rnegc.sh dem
+# 其中dem是egc所在目录
+
+echo processing $1
+
+base=$(printf "%d" "'A")
+echo $base
+for f in $(ls $1/*0.*)
+do
+    nf=${f#$1/N}
+    nf=${nf%0.EGC}
+    nc=$(expr substr $nf 1 1)
+    n=$(printf "%d" \'$nc)
+    nn=$(($n-$base+1))
+    echo $f '=>' $1/N$nn${nf:1}.EGC
+    mv $f $1/N$nn${nf:1}.EGC
+done

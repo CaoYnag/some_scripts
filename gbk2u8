@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# conv_file src dst
+function conv_file()
+{
+    iconv -f gbk -t utf-8 -o $2 $1
+    echo $1 converted to $2
+}
+
+# conv_recur src dst
+function conv_recur()
+{
+    echo processing dir $1
+    if [ ! -d $2 ]
+    then
+	mkdir -p $2
+    fi
+    for f in $(ls $1)
+    do
+	if [ -f $1/$f ]
+	then
+	    conv_file $1/$f $2/$f
+	elif [ -d $1/$f ]
+	then
+	    conv_recur $1/$f $2/$f
+	fi
+    done
+}
+
+if [ $# -lt 2 ]
+then
+    echo "Convert gbk files to utf-8"
+    echo "Usage: gbk2u8 src dst"
+    echo "Exp: gbk2u8 dir1 dir2"
+else
+    conv_recur $1 $2
+fi
+
