@@ -1,0 +1,57 @@
+#!/bin/bash
+
+function run_cmds()
+{
+    limit=$1
+    shift
+    ret=1
+    cnt=0
+
+    while ((ret > 0))
+    do
+	if ((limit > 0)) && ((cnt >= limit)); then
+	   echo run times limit exceed, exit...
+	   exit
+	fi
+	   
+	((cnt+=1))
+	$*
+	ret=$?
+    done    
+}
+
+function help_msg()
+{
+    cat<<\__EOF
+run cmds until it exit successful.
+usage:
+    run_until_succ [options] cmds...
+exp:
+    run_until_succ scp file root@host:/some/path
+
+options:
+    -h		show this help msg.
+    -x num	set max attemps times to run cmds.
+__EOF
+}
+
+limit=0
+while getopts "x:h" arg
+do
+    case $arg in
+	x)
+	    ((limit=${OPTARG}))
+	    echo use limit $limit
+	    ;;
+	h)
+	    help_msg
+	    exit
+	    ;;
+    esac
+done
+
+shift $((OPTIND-1)) #执行该语句，以便本脚本后面固定参数序号从$1开始.
+
+run_cmds $limit $*
+
+
