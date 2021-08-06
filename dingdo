@@ -1,0 +1,8 @@
+#!/bin/sh
+
+$*
+if (( $? > 0)); then
+  echo error # play error se here
+else
+  echo succ  # play succ se here
+fi

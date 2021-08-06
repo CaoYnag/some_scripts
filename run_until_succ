@@ -43,7 +43,7 @@ do
 	    ((limit=${OPTARG}))
 	    echo use limit $limit
 	    ;;
-	h)
+	h|*)
 	    help_msg
 	    exit
 	    ;;
