@@ -1,0 +1,37 @@
+#!/bin/sh
+function rm_dir()
+{
+    echo "process dir $1:"
+    if [ ! -d $1 ] 
+    then
+       echo "$1 not exists."
+    else
+		for f in $1/*
+		do
+			if [ -d $f ]
+			then
+				rm_dir $f
+			else
+				v=$(file $f)
+				if [ $(echo ${v##$f} | grep image\ data | wc -l) -eq 0 ]
+				then
+					echo removed $f
+					rm $f
+				fi
+			fi
+		done
+    fi
+ }
+
+if [ $# -eq 0 ]
+then
+    echo "Usage: rmok [dest dir...]"
+    echo "Exp: rmok dir1 dir2 dir3"
+else
+	IFS=$(echo -en "\n\b")
+    for dir in $*
+    do
+		rm_dir $dir
+    done
+fi
+

@@ -14,3 +14,10 @@ this cmd use aplay to play sounds.
 ```shell
 dingdo scp somefile user@host:/path
 ```
+
+# rm_non_im
+remove files in dir if it is not a picture.
+
+```shell
+rm_non_im dir1 dir2 ... dirN
+```
