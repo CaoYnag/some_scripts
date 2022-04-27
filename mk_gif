@@ -1,0 +1,10 @@
+#!/bin/bash
+TMP_AVI=$(mktemp /tmp/outXXXXXXXXXX.avi)
+GIF=out.gif
+if [ $# -ge 1 ]
+then
+	GIF=$1
+fi
+ffcast -s ffmpeg -y -show_region 1 -r 25 -codec huffyuv $TMP_AVI
+convert -set delay 10 -layers Optimize $TMP_AVI $GIF
+rm $TMP_AVI
