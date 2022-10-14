@@ -1,8 +1,10 @@
 #!/bin/sh
+EFF_SUCC=/home/spes/Music/sounds/53099^DingLing.mp3
+EFF_ERR=/home/spes/Music/sounds/windows-error-sound-effect-35894.mp3
 
 $*
 if (( $? > 0)); then
-  echo error # play error se here
+	playsound $EFF_ERR > /dev/null
 else
-  echo succ  # play succ se here
+	playsound $EFF_SUCC > /dev/null
 fi
